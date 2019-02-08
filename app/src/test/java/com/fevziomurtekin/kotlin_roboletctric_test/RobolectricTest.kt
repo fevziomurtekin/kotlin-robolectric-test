@@ -16,6 +16,7 @@ import org.robolectric.annotation.Config
 class RobolectricTest{
 
     var activity:MainActivity?=null
+    var secondary:SecondActivity?=null
     var textview:TextView?=null
     var button:Button?=null
 
@@ -60,6 +61,25 @@ class RobolectricTest{
         val text = textview?.text.toString()
         Assert.assertThat(text,CoreMatchers.equalTo("Text"))
     }
+
+    @Test
+    fun checkChangeActivity(){ //actiivity değişti mi diye kontrol ediyor.
+        button?.performClick()
+        secondary=Robolectric.setupActivity(SecondActivity::class.java)
+        Assert.assertNotNull(secondary)
+    }
+
+    @Test
+    fun checkAccesRequestPermission(){ //Location izni aldı mı diye kontrol edildi.
+        if(secondary!=null)
+            Assert.assertTrue(secondary!!.isAcces)
+        else {
+            button?.performClick()
+            secondary=Robolectric.setupActivity(SecondActivity::class.java)
+            Assert.assertTrue(secondary!!.isAcces)
+        }
+    }
+
 
 
 }
